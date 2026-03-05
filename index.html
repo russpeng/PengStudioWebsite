@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peng Studio — Brand + Product Design</title>
+  <meta name="description" content="Identity, websites, and mobile UI/UX—crafted with clarity, systems, and speed." />
+
+  <!-- ═══════════════════════════════════════════════
+       FONTS — swap for another grotesk if desired
+  ═══════════════════════════════════════════════ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ═══════════════════════════════════════════════
+       DESIGN TOKENS — edit here to retheme the site
+    ═══════════════════════════════════════════════ */
+    :root {
+      --bg:        #0b0b0c;
+      --fg:        #ffffff;
+      --fg-dim:    rgba(255, 255, 255, 0.45);
+      --fg-muted:  rgba(255, 255, 255, 0.18);
+      --rule:      rgba(255, 255, 255, 0.1);
+      --card-bg:   #111113;
+      --accent:    #e8ff3c;   /* used only on hover / active states */
+      --nav-h:     68px;
+      --gutter:    clamp(1rem, 3vw, 2rem);
+      --radius:    2px;
+      --font:      'Space Grotesk', system-ui, sans-serif;
+      --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ═══════════════════════════════════════════════
+       RESET
+    ═══════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font);
+      font-weight: 400;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    img, svg { display: block; max-width: 100%; }
+    ul { list-style: none; }
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+      background: none;
+      border: none;
+      outline: none;
+    }
+
+    /* ═══════════════════════════════════════════════
+       LAYOUT — 12-column grid system
+    ═══════════════════════════════════════════════ */
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: var(--gutter);
+    }
+
+    /* ═══════════════════════════════════════════════
+       TYPOGRAPHY
+    ═══════════════════════════════════════════════ */
+    .eyebrow {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+    }
+    h1 {
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.04;
+      letter-spacing: -0.025em;
+    }
+    h2 {
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+    }
+    h3 {
+      font-size: clamp(1.125rem, 2vw, 1.375rem);
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+    .body-lg {
+      font-size: clamp(1rem, 1.5vw, 1.2rem);
+      line-height: 1.65;
+      color: var(--fg-dim);
+      font-weight: 300;
+    }
+    .rule { border: none; border-top: 1px solid var(--rule); }
+
+    /* ═══════════════════════════════════════════════
+       BUTTONS
+    ═══════════════════════════════════════════════ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.25s var(--ease-out);
+      border-radius: var(--radius);
+    }
+    /* Primary button */
+    .btn-primary {
+      background: var(--fg);
+      color: var(--bg);
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      transform: translateX(-102%);
+      transition: transform 0.35s var(--ease-out);
+    }
+    .btn-primary:hover::after { transform: translateX(0); }
+    .btn-primary:hover { color: var(--bg); }
+    /* Outline button */
+    .btn-outline {
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: var(--fg);
+    }
+    .btn-outline::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 1px; width: 0;
+      background: var(--accent);
+      transition: width 0.35s var(--ease-out);
+    }
+    .btn-outline:hover::after { width: 100%; }
+    .btn-outline:hover { border-color: var(--fg); }
+    /* Small outlined nav button */
+    .btn-nav {
+      padding: 0.45rem 1rem;
+      font-size: 0.8125rem;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: var(--radius);
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+    .btn-nav:hover {
+      background: var(--fg);
+      color: var(--bg);
+      border-color: var(--fg);
+    }
+
+    /* ═══════════════════════════════════════════════
+       PILL TAGS
+    ═══════════════════════════════════════════════ */
+    .tag {
+      display: inline-block;
+      padding: 0.25rem 0.625rem;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      color: var(--fg-dim);
+    }
+
+    /* ═══════════════════════════════════════════════
+       NAV
+    ═══════════════════════════════════════════════ */
+    #nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      transition: background 0.3s, border-color 0.3s;
+      border-bottom: 1px solid transparent;
+      opacity: 0; /* animated in by GSAP */
+    }
+    #nav.scrolled {
+      background: rgba(11, 11, 12, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom-color: var(--rule);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      flex-shrink: 0;
+    }
+    .nav-logo {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    .nav-link {
+      font-size: 0.8125rem;
+      font-weight: 400;
+      color: var(--fg-dim);
+      position: relative;
+      transition: color 0.2s;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      height: 1px; width: 0;
+      background: var(--fg);
+      transition: width 0.25s var(--ease-out);
+    }
+    .nav-link:hover { color: var(--fg); }
+    .nav-link:hover::after { width: 100%; }
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: var(--fg);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    /* Mobile dropdown */
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      top: var(--nav-h); left: 0; right: 0;
+      background: rgba(11, 11, 12, 0.96);
+      backdrop-filter: blur(16px);
+      padding: 1.5rem var(--gutter) 2rem;
+      border-bottom: 1px solid var(--rule);
+      z-index: 99;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile .nav-link { font-size: 1.125rem; color: var(--fg); }
+    .nav-mobile .btn-nav { align-self: flex-start; }
+
+    /* ═══════════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════════ */
+    #hero {
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      padding-top: var(--nav-h);
+      position: relative;
+      overflow: hidden;
+    }
+    /* CSS dot-grid background — barely visible */
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      padding: clamp(4rem, 10vh, 8rem) 0;
+    }
+    .hero-copy {
+      grid-column: 1 / 8;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2rem;
+    }
+    .hero-copy .eyebrow { margin-bottom: -0.5rem; }
+    /* Headline lines — each wraps a span for GSAP clip animation */
+    .hero-headline .line {
+      display: block;
+      overflow: hidden;
+      /* clip each line so text slides up from below */
+    }
+    .hero-headline .line span {
+      display: block;
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    .hero-sub {
+      max-width: 520px;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .hero-graphic {
+      grid-column: 8 / 13;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-logo-wrap {
+      width: min(360px, 100%);
+      aspect-ratio: 1;
+      position: relative;
+    }
+    /* Faint outer glow ring */
+    .hero-logo-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -30%;
+      background: radial-gradient(circle, rgba(232,255,60,0.04) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    #hero-logo {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ═══════════════════════════════════════════════
+       CREDIBILITY STRIP
+    ═══════════════════════════════════════════════ */
+    #credibility {
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 1.75rem 0;
+    }
+    .cred-list {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .cred-item {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--fg-dim);
+      letter-spacing: 0.02em;
+    }
+    .cred-item::before {
+      content: '';
+      width: 20px;
+      height: 1.5px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    .cred-sep {
+      width: 1px;
+      height: 20px;
+      background: var(--rule);
+    }
+
+    /* ═══════════════════════════════════════════════
+       SECTION BASE
+    ═══════════════════════════════════════════════ */
+    .section {
+      padding: clamp(4rem, 10vh, 8rem) 0;
+    }
+    .section-header {
+      grid-column: 1 / -1;
+      margin-bottom: clamp(2.5rem, 5vw, 4rem);
+    }
+    .section-header .eyebrow { margin-bottom: 1rem; }
+    .section-header h2 { max-width: 640px; }
+
+    /* ═══════════════════════════════════════════════
+       FEATURED WORK
+    ═══════════════════════════════════════════════ */
+    #work { background: var(--bg); }
+    .work-grid {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gutter);
+    }
+    .work-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--card-bg);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s var(--ease-out), border-color 0.3s, box-shadow 0.3s;
+      will-change: transform;
+    }
+    .work-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,255,255,0.25);
+      box-shadow: 0 24px 48px rgba(0,0,0,0.5);
+    }
+    /* Placeholder thumbnail — swap with <img> */
+    .work-thumb {
+      aspect-ratio: 16 / 10;
+      background: #1a1a1d;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Subtle grid texture inside card thumb */
+    .work-thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    /* Number label inside thumb */
+    .work-thumb-label {
+      position: absolute;
+      bottom: 1rem; left: 1rem;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.2);
+      z-index: 1;
+    }
+    .work-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      flex: 1;
+    }
+    .work-tags { display: flex; flex-wrap: wrap; gap: 0.375rem; }
+    .work-title { font-size: 1.125rem; font-weight: 600; margin-top: 0.25rem; }
+    .work-outcome {
+      font-size: 0.875rem;
+      color: var(--fg-dim);
+      line-height: 1.55;
+      flex: 1;
+    }
+    .work-link {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--fg-dim);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      margin-top: 0.5rem;
+      transition: color 0.2s, gap 0.2s;
+    }
+    .work-card:hover .work-link { color: var(--fg); gap: 0.625rem; }
+
+    /* ═══════════════════════════════════════════════
+       SERVICES
+    ═══════════════════════════════════════════════ */
+    #services { border-top: 1px solid var(--rule); }
+    .services-grid {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--gutter);
+    }
+    .service-card {
+      padding: 2rem;
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      transition: border-color 0.3s;
+    }
+    .service-card:hover { border-color: rgba(255,255,255,0.25); }
+    .service-icon {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+    .service-title { font-size: 1.125rem; font-weight: 600; }
+    .service-desc {
+      font-size: 0.875rem;
+      color: var(--fg-dim);
+      line-height: 1.6;
+    }
+    .service-deliverables {
+      border-top: 1px solid var(--rule);
+      padding-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .service-deliverable {
+      font-size: 0.8125rem;
+      color: var(--fg-dim);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .service-deliverable::before {
+      content: '—';
+      flex-shrink: 0;
+      color: var(--accent);
+    }
+
+    /* ═══════════════════════════════════════════════
+       PROCESS
+    ═══════════════════════════════════════════════ */
+    #process { border-top: 1px solid var(--rule); }
+    .process-steps {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      position: relative;
+    }
+    /* Connecting rule line */
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      top: 1.5rem;
+      left: calc(var(--gutter) / 2 + 1.5rem / 2);
+      right: calc(var(--gutter) / 2 + 1.5rem / 2);
+      height: 1px;
+      background: var(--rule);
+      z-index: 0;
+    }
+    .process-step {
+      padding: 0 var(--gutter) 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .process-num {
+      width: 3rem;
+      height: 3rem;
+      border: 1px solid var(--rule);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      background: var(--bg);
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+    }
+    .process-step-title {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .process-step-desc {
+      font-size: 0.8125rem;
+      color: var(--fg-dim);
+      line-height: 1.6;
+    }
+
+    /* ═══════════════════════════════════════════════
+       CONTACT
+    ═══════════════════════════════════════════════ */
+    #contact { border-top: 1px solid var(--rule); }
+    .contact-info {
+      grid-column: 1 / 6;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .contact-email {
+      font-size: 1.125rem;
+      font-weight: 600;
+      position: relative;
+      display: inline-block;
+    }
+    .contact-email::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      height: 1px; width: 100%;
+      background: var(--rule);
+      transition: background 0.25s;
+    }
+    .contact-email:hover::after { background: var(--accent); }
+    .contact-form {
+      grid-column: 6 / -1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.375rem;
+    }
+    .form-label {
+      font-size: 0.6875rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+    }
+    .form-input,
+    .form-select,
+    .form-textarea {
+      background: transparent;
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      font-size: 0.875rem;
+      color: var(--fg);
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: rgba(255,255,255,0.45);
+    }
+    .form-select option { background: #1a1a1d; }
+    .form-textarea { resize: vertical; min-height: 120px; }
+    .form-submit { align-self: flex-start; }
+
+    /* ═══════════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════════ */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2rem 0;
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+    }
+    .footer-logo { width: 20px; height: 20px; }
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--fg-muted);
+    }
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .footer-link {
+      font-size: 0.75rem;
+      color: var(--fg-muted);
+      transition: color 0.2s;
+    }
+    .footer-link:hover { color: var(--fg); }
+
+    /* ═══════════════════════════════════════════════
+       UTILITIES
+    ═══════════════════════════════════════════════ */
+    .visually-hidden {
+      position: absolute;
+      width: 1px; height: 1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+    }
+
+    /* ═══════════════════════════════════════════════
+       RESPONSIVE — tablet (≤1024px)
+    ═══════════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .hero-copy { grid-column: 1 / 7; }
+      .hero-graphic { grid-column: 7 / 13; }
+      .hero-logo-wrap { width: min(280px, 100%); }
+      .work-grid { grid-template-columns: repeat(2, 1fr); }
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .process-steps { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+      .process-steps::before { display: none; }
+      .contact-info { grid-column: 1 / -1; }
+      .contact-form { grid-column: 1 / -1; }
+    }
+
+    /* ═══════════════════════════════════════════════
+       RESPONSIVE — mobile (≤768px)
+    ═══════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      .nav-links, .nav-links + .btn-nav { display: none; }
+      .hamburger { display: flex; }
+      .hero-copy { grid-column: 1 / -1; }
+      .hero-graphic {
+        grid-column: 1 / -1;
+        order: -1;
+        justify-content: flex-start;
+      }
+      .hero-logo-wrap { width: min(200px, 55vw); }
+      .hero-ctas { flex-direction: column; align-items: flex-start; }
+      .cred-sep { display: none; }
+      .cred-list { gap: 0.75rem; }
+      .work-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr; gap: 2rem; }
+      .contact-info { grid-column: 1 / -1; }
+      .contact-form { grid-column: 1 / -1; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════
+       NAV
+  ═══════════════════════════════════════════════ -->
+  <nav id="nav" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="nav-inner">
+
+        <!-- Brand mark — links to top -->
+        <a href="#hero" class="nav-brand">
+          <!-- Small nav logo (32×32) -->
+          <svg class="nav-logo" viewBox="0 0 223 223" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M48.7927 48.1235H128.807V59.0265H48.7927V48.1235ZM48.7927 75.7327H128.807V86.4598H48.7927V75.7327ZM80.2707 33H92.9323V81.0083H80.2707V33ZM60.575 109.673V129.368H112.804V109.673H60.575ZM48.7928 99.473H125.289V139.744H48.7928V99.473Z" fill="white"/>
+            <rect x="55" y="152" width="12" height="39" transform="rotate(-30 55 152)" fill="white"/>
+            <rect width="12" height="39" transform="matrix(-0.866025 -0.5 -0.5 0.866025 116.892 152)" fill="white"/>
+            <rect width="12" height="39" transform="matrix(-0.866025 -0.5 -0.5 0.866025 176.892 47)" fill="white"/>
+            <rect width="12" height="39" transform="matrix(-0.866025 -0.5 -0.5 0.866025 176.892 101)" fill="white"/>
+            <rect width="12" height="39" transform="matrix(-0.866025 -0.5 -0.5 0.866025 171.892 156)" fill="white"/>
+            <rect width="12" height="77" transform="matrix(-4.37114e-08 -1 -1 4.37114e-08 125 190)" fill="white"/>
+            <rect x="6" y="6" width="211" height="211" stroke="white" stroke-width="12"/>
+          </svg>
+          Peng Studio
+        </a>
+
+        <!-- Desktop links -->
+        <ul class="nav-links" role="list">
+          <li><a href="#work"     class="nav-link">Work</a></li>
+          <li><a href="#services" class="nav-link">Services</a></li>
+          <li><a href="#process"  class="nav-link">Process</a></li>
+          <li><a href="#contact"  class="nav-link">Contact</a></li>
+        </ul>
+        <!-- CTA — swap href with your Calendly/call link -->
+        <a href="#contact" class="btn btn-nav" style="display:none" id="nav-cta">Book a Call</a>
+
+        <!-- Hamburger (mobile) -->
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile dropdown -->
+    <div class="nav-mobile" id="nav-mobile" role="menu">
+      <a href="#work"     class="nav-link" role="menuitem">Work</a>
+      <a href="#services" class="nav-link" role="menuitem">Services</a>
+      <a href="#process"  class="nav-link" role="menuitem">Process</a>
+      <a href="#contact"  class="nav-link" role="menuitem">Contact</a>
+      <!-- swap href with your call-booking link -->
+      <a href="#contact" class="btn btn-nav" role="menuitem">Book a Call</a>
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+  <section id="hero">
+    <div class="container hero-inner">
+      <div class="grid">
+
+        <!-- Copy column -->
+        <div class="hero-copy">
+          <!-- EYEBROW — edit the studio descriptor -->
+          <p class="eyebrow">Brand + Product Design Studio</p>
+
+          <!-- HEADLINE — break into two spans for stagger animation -->
+          <h1 class="hero-headline" id="hero-headline">
+            <span class="line"><span>Brand + Product</span></span>
+            <span class="line"><span>Design for Startup</span></span>
+            <span class="line"><span>Momentum.</span></span>
+          </h1>
+
+          <!-- SUBHEAD — your studio's pitch -->
+          <p class="body-lg hero-sub" id="hero-sub">
+            Identity, websites, and mobile UI/UX—crafted
+            with clarity, systems, and speed.
+          </p>
+
+          <!-- CTAs -->
+          <div class="hero-ctas" id="hero-ctas">
+            <!-- Primary: scroll to work section -->
+            <a href="#work" class="btn btn-primary">View Work</a>
+            <!-- Secondary: scroll to contact -->
+            <a href="#contact" class="btn btn-outline">Start a Project</a>
+          </div>
+        </div>
+
+        <!-- Logo graphic column -->
+        <div class="hero-graphic">
+          <div class="hero-logo-wrap">
+            <!--
+              HERO LOGO — inlined SVG with IDs for GSAP animation.
+              logo-border: outer square (stroke-dasharray draw)
+              logo-p:      main "P" geometry (opacity/scale reveal)
+              .logo-bar:   diagonal + horizontal bar elements
+            -->
+            <svg
+              id="hero-logo"
+              viewBox="0 0 223 223"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-label="Peng Studio logo"
+              role="img"
+            >
+              <!-- Outer square border — drawn via stroke-dashoffset -->
+              <!--
+                Open path that traces the square and continues 20px past
+                the start corner. When fully drawn the stroke end overlaps
+                the stroke start, so the corner is always seamlessly closed.
+                (A <rect> has a built-in seam that dashoffset can't reliably hide.)
+              -->
+              <path
+                id="logo-border"
+                d="M6,6 H217 V217 H6 V6 H26"
+                stroke="white"
+                stroke-width="12"
+                stroke-linecap="butt"
+                fill="none"
+              />
+
+              <!-- Main "P" letterform geometry -->
+              <path
+                id="logo-p"
+                d="M48.7927 48.1235H128.807V59.0265H48.7927V48.1235Z
+                   M48.7927 75.7327H128.807V86.4598H48.7927V75.7327Z
+                   M80.2707 33H92.9323V81.0083H80.2707V33Z
+                   M60.575 109.673V129.368H112.804V109.673H60.575Z
+                   M48.7928 99.473H125.289V139.744H48.7928V99.473Z"
+                fill="white"
+                opacity="0"
+              />
+
+              <!-- Bar / slash elements — staggered reveal -->
+              <rect class="logo-bar" x="55" y="152" width="12" height="39" transform="rotate(-30 55 152)" fill="white" opacity="0"/>
+              <rect class="logo-bar" width="12" height="39" transform="matrix(-0.866025 -0.5 -0.5 0.866025 116.892 152)" fill="white" opacity="0"/>
+              <rect class="logo-bar" width="12" height="39" transform="matrix(-0.866025 -0.5 -0.5 0.866025 176.892 47)" fill="white" opacity="0"/>
+              <rect class="logo-bar" width="12" height="39" transform="matrix(-0.866025 -0.5 -0.5 0.866025 176.892 101)" fill="white" opacity="0"/>
+              <rect class="logo-bar" width="12" height="39" transform="matrix(-0.866025 -0.5 -0.5 0.866025 171.892 156)" fill="white" opacity="0"/>
+              <rect class="logo-bar" width="12" height="77" transform="matrix(-4.37114e-08 -1 -1 4.37114e-08 125 190)" fill="white" opacity="0"/>
+            </svg>
+          </div>
+        </div>
+
+      </div><!-- /grid -->
+    </div><!-- /container -->
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       CREDIBILITY STRIP
+       Edit the 4 proof points below
+  ═══════════════════════════════════════════════ -->
+  <div id="credibility">
+    <div class="container">
+      <ul class="cred-list" role="list">
+        <li class="cred-item">Brand systems</li>
+        <li class="cred-sep" aria-hidden="true"></li>
+        <li class="cred-item">Website + app UI</li>
+        <li class="cred-sep" aria-hidden="true"></li>
+        <li class="cred-item">Startup-speed iteration</li>
+        <li class="cred-sep" aria-hidden="true"></li>
+        <li class="cred-item">Engineer-ready handoff</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       FEATURED WORK
+       Add project data in each .work-card block.
+       Swap .work-thumb with an <img> when ready.
+  ═══════════════════════════════════════════════ -->
+  <section id="work" class="section">
+    <div class="container">
+      <div class="grid">
+
+        <div class="section-header">
+          <p class="eyebrow">Selected Work</p>
+          <h2>Projects that ship.</h2>
+        </div>
+
+        <div class="work-grid" id="work-cards">
+
+          <!-- CARD 1 — replace with your project -->
+          <article class="work-card">
+            <div class="work-thumb">
+              <span class="work-thumb-label">Project 01</span>
+            </div>
+            <div class="work-body">
+              <div class="work-tags">
+                <span class="tag">Brand Identity</span>
+                <span class="tag">Web Design</span>
+              </div>
+              <h3 class="work-title">Arbor Finance</h3>
+              <p class="work-outcome">
+                Full brand system and marketing site for a seed-stage
+                fintech startup—launched in 6 weeks.
+              </p>
+              <a href="#" class="work-link" aria-label="View Arbor Finance case study">
+                View case study
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- CARD 2 — replace with your project -->
+          <article class="work-card">
+            <div class="work-thumb">
+              <span class="work-thumb-label">Project 02</span>
+            </div>
+            <div class="work-body">
+              <div class="work-tags">
+                <span class="tag">Mobile UI/UX</span>
+                <span class="tag">Design System</span>
+              </div>
+              <h3 class="work-title">Luma Health</h3>
+              <p class="work-outcome">
+                iOS app redesign and component library for a Series A
+                health-tech company, reducing onboarding drop-off by 40%.
+              </p>
+              <a href="#" class="work-link" aria-label="View Luma Health case study">
+                View case study
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- CARD 3 — replace with your project -->
+          <article class="work-card">
+            <div class="work-thumb">
+              <span class="work-thumb-label">Project 03</span>
+            </div>
+            <div class="work-body">
+              <div class="work-tags">
+                <span class="tag">Logo</span>
+                <span class="tag">Brand Identity</span>
+                <span class="tag">Web</span>
+              </div>
+              <h3 class="work-title">Cascade SaaS</h3>
+              <p class="work-outcome">
+                Zero-to-one brand identity and SaaS dashboard UI for a
+                B2B analytics platform ahead of their product launch.
+              </p>
+              <a href="#" class="work-link" aria-label="View Cascade SaaS case study">
+                View case study
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </article>
+
+        </div><!-- /work-grid -->
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       SERVICES
+       Edit card titles, descriptions, and deliverable lists
+  ═══════════════════════════════════════════════ -->
+  <section id="services" class="section">
+    <div class="container">
+      <div class="grid">
+
+        <div class="section-header">
+          <p class="eyebrow">Services</p>
+          <h2>How we work.</h2>
+        </div>
+
+        <div class="services-grid" id="service-cards">
+
+          <!-- SERVICE 1 -->
+          <div class="service-card">
+            <!-- Icon: stylised brand mark lines -->
+            <svg class="service-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="4" y="4" width="32" height="32" stroke="white" stroke-width="1.5" stroke-opacity="0.4"/>
+              <path d="M10 14h20M10 20h14M16 10v20" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <div class="service-title">Brand Identity</div>
+            <p class="service-desc">
+              Logos, visual systems, and guidelines built for durability—
+              clear enough for engineers, strong enough for investors.
+            </p>
+            <ul class="service-deliverables" role="list">
+              <li class="service-deliverable">Logo design + variations</li>
+              <li class="service-deliverable">Color + type system</li>
+              <li class="service-deliverable">Icon set + illustration style</li>
+              <li class="service-deliverable">Brand guidelines doc</li>
+            </ul>
+          </div>
+
+          <!-- SERVICE 2 -->
+          <div class="service-card">
+            <svg class="service-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="4" y="8" width="32" height="24" rx="1" stroke="white" stroke-width="1.5" stroke-opacity="0.4"/>
+              <path d="M4 14h32" stroke="white" stroke-width="1.5"/>
+              <circle cx="9" cy="11" r="1.5" fill="white" fill-opacity="0.4"/>
+              <circle cx="14" cy="11" r="1.5" fill="white" fill-opacity="0.4"/>
+              <circle cx="19" cy="11" r="1.5" fill="white" fill-opacity="0.4"/>
+            </svg>
+            <div class="service-title">Website Design</div>
+            <p class="service-desc">
+              Marketing sites, landing pages, and web apps—from initial
+              concept to pixel-perfect Figma handoff or live code.
+            </p>
+            <ul class="service-deliverables" role="list">
+              <li class="service-deliverable">Information architecture</li>
+              <li class="service-deliverable">Responsive Figma designs</li>
+              <li class="service-deliverable">Component library</li>
+              <li class="service-deliverable">HTML/CSS delivery option</li>
+            </ul>
+          </div>
+
+          <!-- SERVICE 3 -->
+          <div class="service-card">
+            <svg class="service-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="11" y="3" width="18" height="34" rx="2" stroke="white" stroke-width="1.5" stroke-opacity="0.4"/>
+              <path d="M11 8h18M11 32h18" stroke="white" stroke-width="1.5"/>
+              <circle cx="20" cy="35" r="1.5" fill="white" fill-opacity="0.4"/>
+            </svg>
+            <div class="service-title">Mobile App UI/UX</div>
+            <p class="service-desc">
+              Native iOS and Android UI design with a systems-first
+              approach—built to scale from MVP to full product.
+            </p>
+            <ul class="service-deliverables" role="list">
+              <li class="service-deliverable">User flows + wireframes</li>
+              <li class="service-deliverable">High-fidelity screens</li>
+              <li class="service-deliverable">Micro-interaction specs</li>
+              <li class="service-deliverable">Dev-ready Figma handoff</li>
+            </ul>
+          </div>
+
+        </div><!-- /services-grid -->
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       PROCESS
+       Edit step titles and descriptions
+  ═══════════════════════════════════════════════ -->
+  <section id="process" class="section">
+    <div class="container">
+      <div class="grid">
+
+        <div class="section-header">
+          <p class="eyebrow">Process</p>
+          <h2>Four steps, zero ambiguity.</h2>
+        </div>
+
+        <div class="process-steps" id="process-steps">
+
+          <div class="process-step">
+            <div class="process-num">01</div>
+            <div class="process-step-title">Discover</div>
+            <p class="process-step-desc">
+              We align on your goals, audience, and constraints in a focused
+              kick-off session. No endless discovery phases.
+            </p>
+          </div>
+
+          <div class="process-step">
+            <div class="process-num">02</div>
+            <div class="process-step-title">Define</div>
+            <p class="process-step-desc">
+              Strategy doc, site map, and design direction are agreed before
+              a pixel is placed. Decisions up front save weeks later.
+            </p>
+          </div>
+
+          <div class="process-step">
+            <div class="process-num">03</div>
+            <div class="process-step-title">Design</div>
+            <p class="process-step-desc">
+              High-fidelity screens with a live Figma link updated daily.
+              Two revision rounds, clear feedback loops.
+            </p>
+          </div>
+
+          <div class="process-step">
+            <div class="process-num">04</div>
+            <div class="process-step-title">Deliver</div>
+            <p class="process-step-desc">
+              Annotated Figma file, asset exports, and a brand guide or
+              code handoff—ready for your engineering team on day one.
+            </p>
+          </div>
+
+        </div><!-- /process-steps -->
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       CONTACT
+       Swap email address and form action below
+  ═══════════════════════════════════════════════ -->
+  <section id="contact" class="section">
+    <div class="container">
+      <div class="grid">
+
+        <div class="contact-info">
+          <p class="eyebrow">Let's work together</p>
+          <h2>Ready when you are.</h2>
+          <p class="body-lg">
+            Tell us about your project and we'll get back to you
+            within one business day.
+          </p>
+          <!-- EDIT: swap with your email address -->
+          <a href="mailto:hello@pengstudio.co" class="contact-email">
+            hello@pengstudio.co
+          </a>
+        </div>
+
+        <!-- EDIT: add your form action / backend endpoint -->
+        <form class="contact-form" id="contact-form" action="#" method="POST" novalidate>
+
+          <div class="form-row">
+            <div class="form-field">
+              <label class="form-label" for="name">Name</label>
+              <input class="form-input" type="text" id="name" name="name" placeholder="Your name" required />
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="email">Email</label>
+              <input class="form-input" type="email" id="email" name="email" placeholder="your@email.com" required />
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="project-type">Project type</label>
+            <select class="form-select" id="project-type" name="project_type" required>
+              <option value="" disabled selected>Select a service…</option>
+              <option value="brand">Brand Identity</option>
+              <option value="website">Website Design</option>
+              <option value="mobile">Mobile App UI/UX</option>
+              <option value="other">Something else</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label" for="message">Message</label>
+            <textarea class="form-textarea" id="message" name="message" placeholder="Tell us about your project, timeline, and budget…" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary form-submit">
+            Send Message
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+       Edit social links as needed
+  ═══════════════════════════════════════════════ -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <svg class="footer-logo" viewBox="0 0 223 223" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M48.7927 48.1235H128.807V59.0265H48.7927V48.1235ZM48.7927 75.7327H128.807V86.4598H48.7927V75.7327ZM80.2707 33H92.9323V81.0083H80.2707V33ZM60.575 109.673V129.368H112.804V109.673H60.575ZM48.7928 99.473H125.289V139.744H48.7928V99.473Z" fill="white"/>
+            <rect x="55" y="152" width="12" height="39" transform="rotate(-30 55 152)" fill="white"/>
+            <rect width="12" height="39" transform="matrix(-0.866025 -0.5 -0.5 0.866025 116.892 152)" fill="white"/>
+            <rect width="12" height="39" transform="matrix(-0.866025 -0.5 -0.5 0.866025 176.892 47)" fill="white"/>
+            <rect width="12" height="39" transform="matrix(-0.866025 -0.5 -0.5 0.866025 176.892 101)" fill="white"/>
+            <rect width="12" height="39" transform="matrix(-0.866025 -0.5 -0.5 0.866025 171.892 156)" fill="white"/>
+            <rect width="12" height="77" transform="matrix(-4.37114e-08 -1 -1 4.37114e-08 125 190)" fill="white"/>
+            <rect x="6" y="6" width="211" height="211" stroke="white" stroke-width="12"/>
+          </svg>
+          Peng Studio
+        </div>
+
+        <p class="footer-copy">
+          © <span id="year"></span> Peng Studio. All rights reserved.
+        </p>
+
+        <!-- EDIT: add your social / legal links -->
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="#" class="footer-link">Twitter</a>
+          <a href="#" class="footer-link">LinkedIn</a>
+          <a href="#" class="footer-link">Dribbble</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════════════
+       GSAP + ScrollTrigger (CDN)
+  ═══════════════════════════════════════════════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <script>
+    /* ═══════════════════════════════════════════════
+       UTILITIES
+    ═══════════════════════════════════════════════ */
+
+    // Current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Show the nav CTA on desktop only
+    const navCta = document.getElementById('nav-cta');
+    if (window.innerWidth > 768) navCta.style.display = 'inline-flex';
+
+
+    /* ═══════════════════════════════════════════════
+       GSAP SETUP
+    ═══════════════════════════════════════════════ */
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Respect reduced-motion preference
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+
+    /* ───────────────────────────────────────────────
+       PAGE LOAD TIMELINE
+       Order: border draw → logo shapes → nav → headline → sub/ctas
+    ─────────────────────────────────────────────── */
+    const loadTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    if (!prefersReduced) {
+      // 1. Draw outer logo border.
+      //    The path overshoots the start corner by 20px so the stroke end
+      //    overlaps the stroke start — the corner is always fully closed.
+      const borderEl = document.getElementById('logo-border');
+      const borderLen = borderEl.getTotalLength(); // exact for open <path>
+      borderEl.style.strokeDasharray = borderLen;
+      borderEl.style.strokeDashoffset = borderLen;
+
+      loadTl.to('#logo-border', {
+        strokeDashoffset: 0,
+        duration: 1.1,
+        ease: 'power2.inOut',
+      }, 0);
+
+      // 2. Reveal "P" letterform — opacity + slight scale
+      loadTl.fromTo('#logo-p', {
+        opacity: 0,
+        scale: 0.88,
+        transformOrigin: 'center center',
+      }, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.6,
+      }, 0.55);
+
+      // 3. Stagger bar / slash elements
+      loadTl.fromTo('.logo-bar', {
+        opacity: 0,
+        scale: 0.8,
+        transformOrigin: 'center center',
+      }, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.45,
+        stagger: 0.07,
+      }, 0.65);
+
+      // 4. Nav fade-down
+      loadTl.fromTo('#nav', {
+        opacity: 0,
+        y: -10,
+      }, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+      }, 0.2);
+
+      // 5. Hero eyebrow
+      loadTl.fromTo('#hero .eyebrow', {
+        opacity: 0,
+        y: 12,
+      }, {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+      }, 0.6);
+
+      // 6. Headline lines slide up (each .line > span clips upward)
+      loadTl.to('#hero-headline .line span', {
+        y: '0%',
+        opacity: 1,
+        duration: 0.75,
+        stagger: 0.1,
+      }, 0.7);
+
+      // 7. Sub + CTAs fade up
+      loadTl.to(['#hero-sub', '#hero-ctas'], {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.12,
+      }, 1.1);
+
+    } else {
+      // Skip all load animations for reduced-motion users
+      // For reduced-motion: skip animation but still set dasharray so border shows
+      const borderEl = document.getElementById('logo-border');
+      const borderLen = borderEl.getTotalLength();
+      borderEl.style.strokeDasharray = borderLen;
+      borderEl.style.strokeDashoffset = 0;
+
+      gsap.set(['#logo-p', '.logo-bar', '#nav',
+                 '#hero .eyebrow', '#hero-headline .line span',
+                 '#hero-sub', '#hero-ctas'], {
+        opacity: 1, y: 0, scale: 1,
+      });
+    }
+
+
+    /* ───────────────────────────────────────────────
+       SCROLL TRIGGER — section headers
+    ─────────────────────────────────────────────── */
+    gsap.utils.toArray('.section-header').forEach(header => {
+      const eyebrow = header.querySelector('.eyebrow');
+      const h2 = header.querySelector('h2');
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: header,
+          start: 'top 85%',
+          once: true,
+        },
+      });
+      if (eyebrow) tl.fromTo(eyebrow, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5 });
+      if (h2)     tl.fromTo(h2,      { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.65 }, '-=0.3');
+    });
+
+
+    /* ───────────────────────────────────────────────
+       SCROLL TRIGGER — work cards (stagger + parallax)
+    ─────────────────────────────────────────────── */
+    if (!prefersReduced) {
+      // Stagger entrance
+      gsap.fromTo('#work-cards .work-card', {
+        opacity: 0,
+        y: 56,
+      }, {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        stagger: 0.12,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '#work-cards',
+          start: 'top 82%',
+          once: true,
+        },
+      });
+
+      // Subtle parallax on each card while scrolling through section
+      gsap.utils.toArray('#work-cards .work-card').forEach((card, i) => {
+        gsap.to(card, {
+          y: -30 + i * 8, // slight variation per card
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '#work',
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1.5,
+          },
+        });
+      });
+    }
+
+
+    /* ───────────────────────────────────────────────
+       SCROLL TRIGGER — service cards
+    ─────────────────────────────────────────────── */
+    gsap.fromTo('#service-cards .service-card', {
+      opacity: 0,
+      y: 40,
+    }, {
+      opacity: 1,
+      y: 0,
+      duration: 0.65,
+      stagger: 0.1,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '#service-cards',
+        start: 'top 82%',
+        once: true,
+      },
+    });
+
+
+    /* ───────────────────────────────────────────────
+       SCROLL TRIGGER — process steps
+    ─────────────────────────────────────────────── */
+    gsap.fromTo('#process-steps .process-step', {
+      opacity: 0,
+      y: 32,
+    }, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      stagger: 0.12,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '#process-steps',
+        start: 'top 82%',
+        once: true,
+      },
+    });
+
+
+    /* ───────────────────────────────────────────────
+       SCROLL TRIGGER — contact section
+    ─────────────────────────────────────────────── */
+    gsap.fromTo(['#contact .contact-info', '#contact .contact-form'], {
+      opacity: 0,
+      y: 32,
+    }, {
+      opacity: 1,
+      y: 0,
+      duration: 0.7,
+      stagger: 0.15,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '#contact',
+        start: 'top 82%',
+        once: true,
+      },
+    });
+
+
+    /* ───────────────────────────────────────────────
+       SCROLL TRIGGER — credibility strip
+    ─────────────────────────────────────────────── */
+    gsap.fromTo('#credibility .cred-item', {
+      opacity: 0,
+      y: 12,
+    }, {
+      opacity: 1,
+      y: 0,
+      duration: 0.5,
+      stagger: 0.08,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '#credibility',
+        start: 'top 90%',
+        once: true,
+      },
+    });
+
+
+    /* ═══════════════════════════════════════════════
+       NAV — scroll state + hamburger
+    ═══════════════════════════════════════════════ */
+    const nav = document.getElementById('nav');
+    const hamburger = document.getElementById('hamburger');
+    const navMobile = document.getElementById('nav-mobile');
+
+    // Scrolled class for blurred bg
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+
+    // Hamburger toggle
+    hamburger.addEventListener('click', () => {
+      const isOpen = hamburger.classList.toggle('open');
+      navMobile.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+    });
+
+    // Close mobile menu on link click
+    navMobile.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navMobile.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Show nav CTA on resize (in case of orientation change)
+    window.addEventListener('resize', () => {
+      navCta.style.display = window.innerWidth > 768 ? 'inline-flex' : 'none';
+    });
+
+
+    /* ═══════════════════════════════════════════════
+       FORM — simple client-side feedback
+       Replace this with your own form submission logic
+    ═══════════════════════════════════════════════ */
+    document.getElementById('contact-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btn = e.target.querySelector('.form-submit');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = 'Sent ✓';
+      btn.style.opacity = '0.7';
+      btn.disabled = true;
+      // Reset after 3s — wire up your real endpoint here
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.style.opacity = '';
+        btn.disabled = false;
+        e.target.reset();
+      }, 3000);
+    });
+
+  </script>
+</body>
+</html>
